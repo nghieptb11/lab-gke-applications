@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GKE 3-Tier App</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: #1a73e8; }
+        #result { margin-top: 20px; padding: 15px; background: #e8f0fe; border-radius: 4px; font-weight: bold; color: #3c4043; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Kubernetes 3-Tier Architecture</h1>
+        <p>Frontend Nginx đang gọi API Backend Node.js để lấy dữ liệu từ MySQL...</p>
+        <div id="result">Đang tải dữ liệu...</div>
+    </div>
+
+    <script>
+        // Gọi API tương đối (Ingress sẽ lo việc routing /api tới Backend)
+        fetch('/api/message')
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === 'success') {
+                    document.getElementById('result').innerText = data.data;
+                } else {
+                    document.getElementById('result').innerText = "Lỗi: " + data.message;
+                }
+            })
+            .catch(error => {
+                document.getElementById('result').innerText = "Không thể kết nối đến Backend API.";
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
