@@ -59,6 +59,10 @@ jobs:
           workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ secrets.GCP_SERVICE_ACCOUNT }}'
 
+      - name: Debug OIDC Claims
+        run: |
+          echo "The authenticated subject is: ${{ steps.auth.outputs.credentials_json }}"
+
       # Authenticate Docker to Google Cloud Artifact Registry
       - name: 'Docker Auth'
         uses: 'docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567' # docker/login-action@v3
